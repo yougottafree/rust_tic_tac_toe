@@ -2,16 +2,22 @@
 
 struct Board {
     board: [u8; 9],
-    player: u8,
 }
 
 impl Board {
     fn new() -> Board {
-        let mut newBoard = Board {
-            board: [0;9], 
-            player: 1,
-        };
-        return newBoard;
+        Board {
+            board: [0;9],
+        }  
+    }
+
+    fn put(&mut self, index: usize, player:u8) -> bool {
+        if self.board[index] != 0 {
+            println!("This is already occupied");
+            return false;
+        }
+        self.board[index] = player;
+        return true;
     }
 
     fn display(&self) {
@@ -36,6 +42,11 @@ impl Board {
 }
 
 fn main() {
-    let board: Board = Board::new();
+    let mut board: Board = Board::new();
+    board.display();
+    let index = 1 as usize;
+    board.put(index, 1);
+    board.display();
+    board.put(2 as usize, 2);
     board.display();
 }
