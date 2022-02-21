@@ -132,22 +132,13 @@ impl Board {
 
 }
 
-fn main() {
+fn play_new_game() {
     let mut board: Board = Board::new();
-    
-    // let index = 1 as usize;
-    // board.put(index);
-    // board.display();
-    // board.put(2 as usize);
-    // board.display();
-    // println!("Current {}", board.get_current_player());
     while !board.is_game_over() {
         let mut number = String::new();
         board.display();
         println!("{} play at ", board.get_current_player());
-        io::stdin()
-        .read_line(&mut number)
-        .expect("Failed to read input");
+        io::stdin().read_line(&mut number).expect("Failed to read input");
         let index:u8 = number.trim().parse().expect("invalid input");
         board.put(index as usize);
     }
@@ -157,4 +148,21 @@ fn main() {
         println!("DRAW!!");
     }
     println!("{} WINS!!", winner);
+}
+
+
+fn main() {
+    let mut terminate:bool = false;
+    while !terminate {
+        println!("Please choose your option:");
+        println!("n - play a new tictactoe game");
+        println!("q - quit");
+        let mut input = String::new();
+        io::stdin().read_line(&mut input).expect("Failed to read input");
+        match input.trim() {
+            "n" => play_new_game(),
+            "q" => {terminate = true}, 
+            _ => println!("Please input n or q"),
+        }
+    }
 }
