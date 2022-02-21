@@ -1,5 +1,18 @@
+/**
+ * Author: Tam Dinh Duong, Ta My Linh
+ * Purpose: this program implements Tic Tac Toe game
+ * using Rust
+ */
+
 use std::io;
 
+
+/**
+ * this will create a board class with
+ * an array as a back object, it also
+ * hold the current player and the previous
+ * player and counts the moves done 
+*/
 struct Board {
     board: [u8; 9],
     cur_player: u8,
@@ -8,6 +21,10 @@ struct Board {
 }
 
 impl Board {
+    /*
+    * this will create a new instance of the board, like
+    * a constructor
+    */
     fn new() -> Board {
         Board {
             board: [0;9],
@@ -17,6 +34,11 @@ impl Board {
         }  
     }
 
+    /**
+     * change_player(self) changes the current player from
+     * X to O or O to X, it will also change the previous
+     * player accordingly
+     */
     fn change_player(&mut self) {
         if self.cur_player == 1 {
             self.cur_player = 2;
@@ -27,6 +49,13 @@ impl Board {
         }
     }
 
+    /**
+     * put(self, index) will put the current player
+     * at the index specified. If the index is already
+     * occupied, the message will notify the user
+     * that it is already occupied, otherwise, the move is
+     * made and everything is updated
+     */
     fn put(&mut self, index: usize) {
         if self.board[index] != 0 {
             println!("This is already occupied");
@@ -37,6 +66,10 @@ impl Board {
         }
     }
 
+    /**
+     * get_current_player() will get the player of this turn
+     * of the game
+     */
     fn get_current_player(&mut self) -> char {
         match self.cur_player {
             1 => 'X',
@@ -45,6 +78,10 @@ impl Board {
         }
     }
 
+    /**
+     * get_prev_player() will get the player of previous turn of the
+     * game 
+     */
     fn get_prev_player(&mut self) -> char {
         match self.prev_player {
             1 => 'X',
@@ -53,10 +90,19 @@ impl Board {
         }
     }
 
+    /**
+     * is_game_over() will check if the game is over
+     * by checking if anyone win, or if the board is full
+     * with 9 moves
+     */
     fn is_game_over(&mut self) -> bool {
         self.moves == 9 || self.get_winner() != ' '
     }
 
+    /**
+     * get_winner() will get a character X or O as
+     * the winner of the game, or blank if no one wins
+     */
     fn get_winner(&mut self)-> char{
         if self.is_winner(self.cur_player) {
             return self.get_current_player();
@@ -67,10 +113,18 @@ impl Board {
         return ' ';
     }
 
+    /**
+     * is_winner(player) check if a player is a winner
+     * of the game
+     */
     fn is_winner(&mut self, player:u8) -> bool {
         return self.check_row(player) || self.check_col(player) || self.check_diag(player);
     }
 
+    /**
+     * check_row(player) will check if the player win by 
+     * occupying row
+     */
     fn check_row(&mut self, player:u8) -> bool {
         for row in 0..3 {
             let mut count:u8 = 0;
@@ -86,6 +140,10 @@ impl Board {
         return false;
     }
 
+    /**
+     * check_col(player) will check if the player win by
+     * occupying column
+     */
     fn check_col(&mut self, player:u8) -> bool {
         for col in 0..3 {
             let mut count:u8 = 0;
@@ -101,6 +159,10 @@ impl Board {
         return false;
     }
 
+    /**
+     * check_diag(player) will check if the player win by
+     * occupying diagnally
+     */
     fn check_diag(&mut self, player:u8) -> bool {
         if self.board[0] == player && self.board[4] == player && self.board[8] == player {
             return true;
@@ -111,6 +173,9 @@ impl Board {
         return false;
     }
  
+    /**
+     * display() will display the current board game
+     */
     fn display(&self) {
         println!("__________________");
         println!("|     |     |     |");
@@ -132,6 +197,10 @@ impl Board {
 
 }
 
+/**
+ * play_new_game() will create a new board and let the user play
+ * until the game is over
+ */
 fn play_new_game() {
     let mut board: Board = Board::new();
     while !board.is_game_over() {
