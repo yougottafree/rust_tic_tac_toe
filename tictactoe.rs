@@ -1,4 +1,4 @@
-// use std::fmt;
+use std::io;
 
 struct Board {
     board: [u8; 9],
@@ -45,6 +45,72 @@ impl Board {
         }
     }
 
+    fn get_prev_player(&mut self) -> char {
+        match self.prev_player {
+            1 => 'X',
+            2 => '0',
+            _ => ' ',
+        }
+    }
+
+    fn is_game_over(&mut self) -> bool {
+        self.moves == 9 || self.get_winner() != ' '
+    }
+
+    fn get_winner(&mut self)-> char{
+        if self.is_winner(self.cur_player) {
+            return self.get_current_player();
+        }
+        if self.is_winner(self.prev_player) {
+            return self.get_prev_player();
+        }
+        return ' ';
+    }
+
+    fn is_winner(&mut self, player:u8) -> bool {
+        return self.check_row(player) || self.check_col(player) || self.check_diag(player);
+    }
+
+    fn check_row(&mut self, player:u8) -> bool {
+        for row in 0..3 {
+            let mut count:u8 = 0;
+            for col in 0..3 {
+                if self.board[row*3 + col] == player {
+                    count += 1;
+                }
+            }
+            if count == 3 {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    fn check_col(&mut self, player:u8) -> bool {
+        for col in 0..3 {
+            let mut count:u8 = 0;
+            for row in 0..3 {
+                if self.board[row*3 + col] == player {
+                    count += 1;
+                }
+            }
+            if count == 3 {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    fn check_diag(&mut self, player:u8) -> bool {
+        if self.board[0] == player && self.board[4] == player && self.board[8] == player {
+            return true;
+        }
+        if self.board[2] == player && self.board[4] == player && self.board[6] == player {
+            return true;
+        }
+        return false;
+    }
+ 
     fn display(&self) {
         println!("__________________");
         println!("|     |     |     |");
@@ -68,11 +134,27 @@ impl Board {
 
 fn main() {
     let mut board: Board = Board::new();
+    
+    // let index = 1 as usize;
+    // board.put(index);
+    // board.display();
+    // board.put(2 as usize);
+    // board.display();
+    // println!("Current {}", board.get_current_player());
+    while !board.is_game_over() {
+        let mut number = String::new();
+        board.display();
+        println!("{} play at ", board.get_current_player());
+        io::stdin()
+        .read_line(&mut number)
+        .expect("Failed to read input");
+        let index:u8 = number.trim().parse().expect("invalid input");
+        board.put(index as usize);
+    }
     board.display();
-    let index = 1 as usize;
-    board.put(index);
-    board.display();
-    board.put(2 as usize);
-    board.display();
-    println!("Current {}", board.get_current_player());
+    let winner:char = board.get_winner();
+    if winner == ' ' {
+        println!("DRAW!!");
+    }
+    println!("{} WINS!!", winner);
 }
