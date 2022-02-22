@@ -1,7 +1,9 @@
 /**
  * Author: Tam Dinh Duong, Ta My Linh
  * Purpose: this program implements Tic Tac Toe game
- * using Rust
+ * using Rust, this will use an object oriented pattern
+ * to implement the tictactoe board and all of its operation
+ * so that we can build the game easily
  */
 
 use std::io;
@@ -13,20 +15,20 @@ use std::io;
  * hold the current player and the previous
  * player and counts the moves done 
 */
-struct Board {
+struct TicTacToeGame {
     board: [u8; 9],
     cur_player: u8,
     prev_player: u8,
     moves: u8,
 }
 
-impl Board {
+impl TicTacToeGame {
     /*
     * this will create a new instance of the board, like
     * a constructor
     */
-    fn new() -> Board {
-        Board {
+    fn new() -> TicTacToeGame {
+        TicTacToeGame {
             board: [0;9],
             cur_player: 1u8,
             prev_player: 2u8,
@@ -54,7 +56,8 @@ impl Board {
      * at the index specified. If the index is already
      * occupied, the message will notify the user
      * that it is already occupied, otherwise, the move is
-     * made and everything is updated
+     * made and everything is updated. Here we have to use
+     * mut for self so that the board is modifyable
      */
     fn put(&mut self, index: usize) {
         if self.board[index] != 0 {
@@ -68,7 +71,7 @@ impl Board {
 
     /**
      * get_current_player() will get the player of this turn
-     * of the game
+     * of the game. This use match just like switch in Java
      */
     fn get_current_player(&mut self) -> char {
         match self.cur_player {
@@ -93,7 +96,8 @@ impl Board {
     /**
      * is_game_over() will check if the game is over
      * by checking if anyone win, or if the board is full
-     * with 9 moves
+     * with 9 moves. It return with out the return keyword
+     * but also without semicolon
      */
     fn is_game_over(&mut self) -> bool {
         self.moves == 9 || self.get_winner() != ' '
@@ -123,7 +127,8 @@ impl Board {
 
     /**
      * check_row(player) will check if the player win by 
-     * occupying row
+     * occupying row, this can illustrate what the for loop
+     * is like
      */
     fn check_row(&mut self, player:u8) -> bool {
         for row in 0..3 {
@@ -202,7 +207,7 @@ impl Board {
  * until the game is over
  */
 fn play_new_game() {
-    let mut board: Board = Board::new();
+    let mut board: TicTacToeGame = TicTacToeGame::new();
     while !board.is_game_over() {
         let mut number = String::new();
         board.display();
