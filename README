@@ -1,0 +1,31 @@
+Author: Tam Dinh Duong and Ta My Linh
+File: README
+Project 1: Tic Tac Toe with Rust
+
+What the project does?
+The project will use Rust to implement the Tic Tac Toe
+game. When the program is run, the prompt will ask the
+user if they want to play a game of tic tac toe from
+start to finish or to quit the program. if the user choose
+to play the game, then the game will start and the board will
+be redrawn each time the player play a move, play until
+one player win or a draw match. After the game, the initial
+prompt will pop up again. 
+
+How to run the project? 
+If you have the compiler already, you can open the command line
+to compile this code by the command:
+    rustc tictactoe.rs
+which will generate a byte file of tictactoe, then you can run it by:
+    ./tictactoe
+Then you just choose the option on the prompt to play the game
+
+What the project illustrate about the language?
+The project illustrate a lot of concepts about Rust.
+Firstly, it is implemented in an object oriented fashion, 
+which show that Rust is able to be an object oriented language. 
+Secondly, it shows the match control flow, which is used a lot
+in Rust. In addition to that, in order to make all of that work,
+We have to set the mutability of the objects and variable in it, 
+which is unique to Rust. The program also shows how to write loop
+and get user input from command line.
